@@ -11,10 +11,17 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text BestScoreText;
     public GameObject GameOverText;
+
+    public static string BestScoreTextSave;
     
     private bool m_Started = false;
     private int m_Points;
+
+    private static int m_BestScore;
+
+    private static bool hasSet = false; 
     
     private bool m_GameOver = false;
 
@@ -22,6 +29,10 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SetBestScoreText();
+
+        BestScoreText.text = BestScoreTextSave;
+
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -55,8 +66,19 @@ public class MainManager : MonoBehaviour
         }
         else if (m_GameOver)
         {
+            if(m_BestScore < m_Points)
+            {
+                m_BestScore = m_Points;
+
+                BestScoreText.text = $"Best Score: {NameInputHandler.Instance.PlayerName} : {m_BestScore}";
+
+                BestScoreTextSave = BestScoreText.text;
+            }
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                SaveBestScore.Instance.BestScoreText = BestScoreTextSave;
+
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
@@ -72,5 +94,19 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+    }
+
+    private void SetBestScoreText()
+    {
+        if(!hasSet)
+        {
+            BestScoreTextSave = SaveBestScore.Instance.BestScoreText;
+            m_BestScore = SaveBestScore.Instance.BestScore;
+
+            hasSet = true;
+
+            Debug.Log("I Rannnn Agian");
+        }
+        
     }
 }
