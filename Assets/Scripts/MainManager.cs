@@ -73,12 +73,13 @@ public class MainManager : MonoBehaviour
                 BestScoreText.text = $"Best Score: {NameInputHandler.Instance.PlayerName} : {m_BestScore}";
 
                 BestScoreTextSave = BestScoreText.text;
+
+                SaveBestScore.Instance.BestScoreText = BestScoreText.text;
+                SaveBestScore.Instance.BestScore = m_BestScore;
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SaveBestScore.Instance.BestScoreText = BestScoreTextSave;
-
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
@@ -104,8 +105,6 @@ public class MainManager : MonoBehaviour
             m_BestScore = SaveBestScore.Instance.BestScore;
 
             hasSet = true;
-
-            Debug.Log("I Rannnn Agian");
         }
         
     }

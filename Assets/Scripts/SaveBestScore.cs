@@ -48,8 +48,6 @@ public class SaveBestScore: MonoBehaviour
         string json = JsonUtility.ToJson(data);
 
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
-
-        Debug.Log("I Ran");
     }
 
     public void LoadBestScoreInfo()
